@@ -6,12 +6,14 @@
 package com.LearninSpringAPITrucker.LearninSpringAPITrucker.di.notificacao;
 
 import com.LearninSpringAPITrucker.LearninSpringAPITrucker.di.modelo.Cliente;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 /**
  *
  * @author victor
  */
+@Profile("prod")
 @TipoDoNotificador(NivelUrgencia.NORMAL)
 @Component
 public class NotificarEmail implements Notificador  {            
