@@ -34,6 +34,6 @@ public class MeuTerceiroController {
         
         ativacaoCliente.ativar(joao);
         
-        return "Ola";
+        return "Olá";
     }
 }

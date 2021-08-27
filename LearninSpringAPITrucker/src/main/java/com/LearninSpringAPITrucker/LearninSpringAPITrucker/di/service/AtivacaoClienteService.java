@@ -11,7 +11,10 @@ import com.LearninSpringAPITrucker.LearninSpringAPITrucker.di.notificacao.Notifi
 import com.LearninSpringAPITrucker.LearninSpringAPITrucker.di.notificacao.NotificarEmail;
 import com.LearninSpringAPITrucker.LearninSpringAPITrucker.di.notificacao.TipoDoNotificador;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,15 +25,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class AtivacaoClienteService {
     
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+    
     @TipoDoNotificador(NivelUrgencia.URGENTE)
     @Autowired
     private Notificador notificador;
     
+    @PostConstruct
+    public void init(){
+        System.out.println("INIT"+notificador);
+    }
+    @PreDestroy
+    public void destroy(){
+        System.out.println("DESTROY");
+    }
+    
     public void ativar(Cliente cliente){
         cliente.ativar();
         
-        notificador.notificar(cliente, "Seu cadastro no Sistema está "
-                + "ativo"); 
+        //notificador.notificar(cliente, "Seu cadastro no Sistema está " + "ativo"); 
+        eventPublisher.publishEvent(new ClientAtivadoEvent(cliente));
     }
     
 }
